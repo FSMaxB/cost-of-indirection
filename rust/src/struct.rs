@@ -16,7 +16,7 @@ impl FromIterator<Point> for StructPoints {
 
 impl Points for StructPoints {
     fn name() -> &'static str {
-        "InlinePoints"
+        "StructPoints"
     }
 
     fn average_length(&self) -> f64 {

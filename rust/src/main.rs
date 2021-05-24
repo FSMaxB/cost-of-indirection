@@ -1,14 +1,14 @@
 use std::time::{Instant, Duration};
-use crate::inline::InlinePoints;
+use crate::r#struct::StructPoints;
 use crate::points::{Points, Point};
 
-mod inline;
+mod r#struct;
 mod points;
 
 fn main() {
     const SIZE: u32 = 300_000_000;
 
-    test_implementation::<InlinePoints>(SIZE);
+    test_implementation::<StructPoints>(SIZE);
 }
 
 fn test_implementation<Implementation: Points>(size: u32) {
