@@ -17,6 +17,8 @@ impl Point {
 
     // Length according to taxicab geometry
     pub fn length(&self) -> u64 {
-        u64::from(self.x) + u64::from(self.y)
+        // NOTE: Performing the cast AFTER the addition has a BIG impact on performance
+        // This is why the hand optimized Java code was initially faster than rust
+        u64::from(self.x + self.y)
     }
 }
