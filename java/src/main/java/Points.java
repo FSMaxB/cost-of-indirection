@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -14,6 +15,10 @@ public class Points {
                 .boxed()
                 .map(number -> new Point(number / 10, number % 10))
                 .collect(Collectors.toCollection(ArrayList::new));
+    }
+
+    public Points(List<Point> points) {
+        this.points = new ArrayList<>(points);
     }
 
     public ArrayList<Point> list() {
