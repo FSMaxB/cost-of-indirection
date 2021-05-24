@@ -1,32 +1,52 @@
+import java.util.function.Supplier;
+
 public class Main {
     public static void main(String[] arguments) {
-        double warmTime = executionTimeInSeconds(Main::warmJIT);
-        System.out.println("Warming JIT took " + warmTime + " seconds.");
+        double warmJITSeconds = computeAndTime(supplierFromRunnable(Main::warmJIT)).seconds;
+        System.out.println("Warming JIT took " + warmJITSeconds + " seconds.");
 
 
-        int size = 100_000_000;
+        int size = 300_000_000;
         Points points = new Points(size);
         System.out.println("Finished constructing points.");
 
-        double averageTime = executionTimeInSeconds(points::averageLength);
-        System.out.println("Average length took " + averageTime + " seconds");
+        OutputAndSeconds<Double> viaForLoop = computeAndTime(points::averageLengthViaForLoop);
+        System.out.println("Average length via for loop: " + viaForLoop.output + " (" + viaForLoop.seconds + "s)");
 
-        double streamAverageTime = executionTimeInSeconds(points::averageLengthViaStream);
-        System.out.println("Average length via Stream took " + streamAverageTime + " seconds");
+        OutputAndSeconds<Double> viaStream = computeAndTime(points::averageLengthViaStream);
+        System.out.println("Average length via for stream: " + viaStream.output + " (" + viaStream.seconds + "s)");
     }
 
     private static void warmJIT() {
         System.out.println("Warming JIT.");
         Points points = new Points(1_000);
-        points.averageLength();
+        points.averageLengthViaForLoop();
         points.averageLengthViaStream();
         System.out.println("Finished warming JIT.");
     }
 
-    private static double executionTimeInSeconds(Runnable runnable) {
+    private static <T> OutputAndSeconds<T> computeAndTime(Supplier<T> supplier) {
         long before = System.nanoTime();
-        runnable.run();
-        long after = System.nanoTime();
-        return (after - before) / 1e9;
+        T output = supplier.get();
+        double seconds = (System.nanoTime() - before) / 1e9;
+
+        return new OutputAndSeconds<>(output, seconds);
+    }
+
+    private static Supplier<Void> supplierFromRunnable(Runnable runnable) {
+        return () -> {
+            runnable.run();
+            return null;
+        };
+    }
+}
+
+class OutputAndSeconds<Output> {
+    public final Output output;
+    public final double seconds;
+
+    public OutputAndSeconds(Output output, double seconds) {
+        this.output = output;
+        this.seconds = seconds;
     }
 }

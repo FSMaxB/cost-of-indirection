@@ -1,18 +1,19 @@
 public class Point {
-    private final double x;
-    private final double y;
+    private final int x;
+    private final int y;
 
-    public Point(double x, double y) {
+    public Point(int x, int y) {
         this.x = x;
         this.y = y;
     }
 
-    public double length() {
-        return Math.sqrt(this.x * this.x + this.y * this.y);
+    // Length according to taxicab geometry
+    public long length() {
+        return this.x + this.y;
     }
 
     @Override
     public String toString() {
-        return String.format("(%f, %f)", this.x, this.y);
+        return String.format("(%d, %d)", this.x, this.y);
     }
 }
