@@ -2,16 +2,19 @@ use std::time::{Instant, Duration};
 use crate::r#struct::StructPoints;
 use crate::points::{Points, Point};
 use crate::boxed::BoxedPoints;
+use crate::dynamic::DynamicPoints;
 
 mod r#struct;
 mod boxed;
+mod dynamic;
 mod points;
 
 fn main() {
     const SIZE: u32 = 300_000_000;
 
     test_implementation::<StructPoints>(SIZE);
-    test_implementation::<BoxedPoints>(SIZE)
+    test_implementation::<BoxedPoints>(SIZE);
+    test_implementation::<DynamicPoints>(SIZE);
 }
 
 fn test_implementation<Implementation: Points>(size: u32) {

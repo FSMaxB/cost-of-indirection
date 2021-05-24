@@ -22,3 +22,24 @@ impl Point {
         u64::from(self.x + self.y)
     }
 }
+
+pub trait DynamicPoint {
+    fn x(&self) -> u32;
+    fn y(&self) -> u32;
+
+    fn length(&self) -> u64;
+}
+
+impl DynamicPoint for Point {
+    fn x(&self) -> u32 {
+        self.x
+    }
+
+    fn y(&self) -> u32 {
+        self.y
+    }
+
+    fn length(&self) -> u64 {
+        Point::length(&self)
+    }
+}
