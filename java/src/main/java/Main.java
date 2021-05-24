@@ -9,6 +9,7 @@ public class Main {
         testImplementation(ForLoopPoints::new, size);
         testImplementation(StreamPoints::new, size);
         testImplementation(InlinePoints::new, size);
+        testImplementation(InlineArrayListPoints::new, size);
     }
 
     private static void testImplementation(Function<Stream<Point>, Points> constructor, int size) {
