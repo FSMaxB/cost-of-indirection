@@ -9,14 +9,6 @@ public class ForLoopPoints implements Points {
         this.points = points.collect(Collectors.toCollection(ArrayList::new));
     }
 
-    public double averageLengthViaStream() {
-        long totalLength = this.points
-                .stream()
-                .mapToLong(Point::length)
-                .sum();
-        return ((double)totalLength) / this.points.size();
-    }
-
     @Override
     public String name() {
         return this.getClass().getSimpleName();

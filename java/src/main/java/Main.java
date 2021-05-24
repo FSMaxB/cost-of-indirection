@@ -8,6 +8,7 @@ public class Main {
         int size = 300_000_000;
         testImplementation(ForLoopPoints::new, size);
         testImplementation(StreamPoints::new, size);
+        testImplementation(InlinePoints::new, size);
     }
 
     private static void testImplementation(Function<Stream<Point>, Points> constructor, int size) {

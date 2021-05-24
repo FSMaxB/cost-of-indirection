@@ -1,11 +1,11 @@
 use crate::points::{Point, Points};
 use std::iter::FromIterator;
 
-pub struct InlinePoints {
+pub struct StructPoints {
     points: Vec<Point>,
 }
 
-impl FromIterator<Point> for InlinePoints {
+impl FromIterator<Point> for StructPoints {
     fn from_iter<Iter: IntoIterator<Item=Point>>(iterator: Iter) -> Self {
         let points = iterator.into_iter().collect();
         Self {
@@ -14,7 +14,7 @@ impl FromIterator<Point> for InlinePoints {
     }
 }
 
-impl Points for InlinePoints {
+impl Points for StructPoints {
     fn name() -> &'static str {
         "InlinePoints"
     }
