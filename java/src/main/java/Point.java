@@ -1,4 +1,4 @@
-public class Point implements Comparable<Point> {
+public class Point {
     private final double x;
     private final double y;
 
@@ -7,31 +7,8 @@ public class Point implements Comparable<Point> {
         this.y = y;
     }
 
-    public double x() {
-        return this.x;
-    }
-
-    public double y() {
-        return this.y;
-    }
-
-    @Override
-    public int compareTo(Point other) {
-        // compare x first
-        if (this.x < other.x) {
-            return -1;
-        } else if (this.x > other.x) {
-            return 1;
-        }
-
-        // if x are the same, compare y
-        if (this.y < other.y) {
-            return -1;
-        } else if (this.y > other.y) {
-            return 1;
-        }
-
-        return 0;
+    public double length() {
+        return Math.sqrt(this.x * this.x + this.y * this.y);
     }
 
     @Override

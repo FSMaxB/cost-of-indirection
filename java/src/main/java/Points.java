@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class Points {
     private final ArrayList<Point> points;
@@ -21,27 +22,21 @@ public class Points {
         this.points = new ArrayList<>(points);
     }
 
-    public ArrayList<Point> list() {
-        return new ArrayList<>(this.points);
+    public double averageLength() {
+        double totalLength = 0;
+        int count = 0;
+        for (Point point : this.points) {
+            count += 1;
+            totalLength += point.length();
+        }
+
+        return totalLength / count;
     }
 
-    public void bubbleSort() {
-        if (this.points.size() <= 1) {
-            return;
-        }
-
-        for (int upperBound = this.points.size() - 1; upperBound >= 1; upperBound--) {
-            for (int index = 0; index < upperBound; index++) {
-                Point first = this.points.get(index);
-                Point second = this.points.get(index + 1);
-
-                int comparison = first.compareTo(second);
-                if (comparison > 0) { // swap
-                    this.points.set(index, second);
-                    this.points.set(index + 1, first);
-                }
-            }
-        }
+    public double averageLengthViaStream() {
+        return this.points
+                .stream()
+                .collect(Collectors.averagingDouble(Point::length));
     }
 
     public void print() {

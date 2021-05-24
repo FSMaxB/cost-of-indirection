@@ -4,17 +4,22 @@ public class Main {
         System.out.println("Warming JIT took " + warmTime + " seconds.");
 
 
-        int size = 100_000;
+        int size = 100_000_000;
         Points points = new Points(size);
         System.out.println("Finished constructing points.");
 
-        double sortTime = executionTimeInSeconds(points::bubbleSort);
-        System.out.println("Sorting took " + sortTime + " seconds");
+        double averageTime = executionTimeInSeconds(points::averageLength);
+        System.out.println("Average length took " + averageTime + " seconds");
+
+        double streamAverageTime = executionTimeInSeconds(points::averageLengthViaStream);
+        System.out.println("Average length via Stream took " + streamAverageTime + " seconds");
     }
 
     private static void warmJIT() {
         System.out.println("Warming JIT.");
-        (new Points(1_000)).bubbleSort();
+        Points points = new Points(1_000);
+        points.averageLength();
+        points.averageLengthViaStream();
         System.out.println("Finished warming JIT.");
     }
 
