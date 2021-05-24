@@ -1,28 +1,36 @@
+import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class Main {
     public static void main(String[] arguments) {
-        double warmJITSeconds = computeAndTime(supplierFromRunnable(Main::warmJIT)).seconds;
-        System.out.println("Warming JIT took " + warmJITSeconds + " seconds.");
-
-
         int size = 300_000_000;
-        Points points = new Points(size);
-        System.out.println("Finished constructing points.");
-
-        OutputAndSeconds<Double> viaForLoop = computeAndTime(points::averageLengthViaForLoop);
-        System.out.println("Average length via for loop: " + viaForLoop.output + " (" + viaForLoop.seconds + "s)");
-
-        OutputAndSeconds<Double> viaStream = computeAndTime(points::averageLengthViaStream);
-        System.out.println("Average length via for stream: " + viaStream.output + " (" + viaStream.seconds + "s)");
+        testImplementation(ForLoopPoints::new, size);
+        testImplementation(StreamPoints::new, size);
     }
 
-    private static void warmJIT() {
-        System.out.println("Warming JIT.");
-        Points points = new Points(1_000);
-        points.averageLengthViaForLoop();
-        points.averageLengthViaStream();
-        System.out.println("Finished warming JIT.");
+    private static void testImplementation(Function<Stream<Point>, Points> constructor, int size) {
+        double warmJITSeconds = computeAndTime(supplierFromRunnable(() -> warmJIT(constructor))).seconds;
+        System.out.println("Warming JIT took " + warmJITSeconds + "s");
+
+        Points points = constructor.apply(createPoints(size));
+        System.out.println(points.name() + ": Finished constructing ");
+
+        OutputAndSeconds<Double> outputAndSeconds = computeAndTime(points::averageLength);
+        System.out.println(points.name() + ": Average length: " + outputAndSeconds.output + " (" + outputAndSeconds.seconds + "s)");
+    }
+
+    private static void warmJIT(Function<Stream<Point>, Points> constructor) {
+        Points points = constructor.apply(createPoints(1_000));
+        points.averageLength();
+    }
+
+    private static Stream<Point> createPoints(int size) {
+        return IntStream
+                .range(0, size)
+                .boxed()
+                .map(number -> new Point(number / 10, number % 10));
     }
 
     private static <T> OutputAndSeconds<T> computeAndTime(Supplier<T> supplier) {
