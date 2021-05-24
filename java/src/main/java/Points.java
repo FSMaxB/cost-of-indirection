@@ -20,6 +20,25 @@ public class Points {
         return new ArrayList<>(this.points);
     }
 
+    public void bubbleSort() {
+        if (this.points.size() <= 1) {
+            return;
+        }
+
+        for (int upperBound = this.points.size() - 1; upperBound >= 1; upperBound--) {
+            for (int index = 0; index < upperBound; index++) {
+                Point first = this.points.get(index);
+                Point second = this.points.get(index + 1);
+
+                int comparison = first.compareTo(second);
+                if (comparison > 0) { // swap
+                    this.points.set(index, second);
+                    this.points.set(index + 1, first);
+                }
+            }
+        }
+    }
+
     public void print() {
         for (Point point : this.points) {
             System.out.println(point);
