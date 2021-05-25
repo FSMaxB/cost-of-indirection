@@ -13,14 +13,18 @@ public class Main {
     }
 
     private static void testImplementation(Function<Stream<Point>, Points> constructor, int size) {
+        long heapOverhead = heapSize();
+
         double warmJITSeconds = computeAndTime(supplierFromRunnable(() -> warmJIT(constructor))).seconds;
         System.out.println("Warming JIT took " + warmJITSeconds + "s");
 
         Points points = constructor.apply(createPoints(size));
         System.out.println(points.name() + ": Finished constructing ");
+        final long mib = 1024 * 1024;
+        long sizeEstimate = heapSize() - heapOverhead;
 
         OutputAndSeconds<Double> outputAndSeconds = computeAndTime(points::averageLength);
-        System.out.println(points.name() + ": Average length: " + outputAndSeconds.output + " (" + outputAndSeconds.seconds + "s)");
+        System.out.println(points.name() + ": Average length: " + outputAndSeconds.output + " (" + outputAndSeconds.seconds + "s) (ca. " + (sizeEstimate / mib) + "MiB)");
     }
 
     private static void warmJIT(Function<Stream<Point>, Points> constructor) {
@@ -48,6 +52,13 @@ public class Main {
             runnable.run();
             return null;
         };
+    }
+
+    private static long heapSize() {
+        Runtime runtime = Runtime.getRuntime();
+        runtime.gc();
+
+        return runtime.totalMemory() - runtime.freeMemory();
     }
 }
 
