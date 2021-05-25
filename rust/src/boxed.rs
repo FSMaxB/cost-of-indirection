@@ -28,4 +28,8 @@ impl Points for BoxedPoints {
 
         (total_length as f64) / (self.points.len() as f64)
     }
+
+    fn size_estimate(&self) -> usize {
+        std::mem::size_of::<Point>() * self.points.len() + std::mem::size_of::<Box<Point>>() * self.points.len()
+    }
 }

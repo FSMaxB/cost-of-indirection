@@ -3,6 +3,7 @@ use std::iter::FromIterator;
 pub trait Points: FromIterator<Point> {
     fn name() -> &'static str;
     fn average_length(&self) -> f64;
+    fn size_estimate(&self) -> usize;
 }
 
 pub struct Point {
