@@ -15,11 +15,9 @@ public class Main {
     private static void testImplementation(Function<Stream<Point>, Points> constructor, int size) {
         long heapOverhead = heapSize();
 
-        double warmJITSeconds = computeAndTime(supplierFromRunnable(() -> warmJIT(constructor))).seconds;
-        System.out.println("Warming JIT took " + warmJITSeconds + "s");
+        warmJIT(constructor);
 
         Points points = constructor.apply(createPoints(size));
-        System.out.println(points.name() + ": Finished constructing ");
         final long mib = 1024 * 1024;
         long sizeEstimate = heapSize() - heapOverhead;
 
@@ -45,13 +43,6 @@ public class Main {
         double seconds = (System.nanoTime() - before) / 1e9;
 
         return new OutputAndSeconds<>(output, seconds);
-    }
-
-    private static Supplier<Void> supplierFromRunnable(Runnable runnable) {
-        return () -> {
-            runnable.run();
-            return null;
-        };
     }
 
     private static long heapSize() {

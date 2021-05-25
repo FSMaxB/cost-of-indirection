@@ -19,9 +19,4 @@ public class Point {
     public long length() {
         return this.x + this.y;
     }
-
-    @Override
-    public String toString() {
-        return String.format("(%d, %d)", this.x, this.y);
-    }
 }
