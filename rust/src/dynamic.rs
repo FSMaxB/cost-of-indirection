@@ -1,6 +1,33 @@
 use crate::points::{DynamicPoint, Point, Points};
 use std::iter::FromIterator;
 
+/// Memory Layout:
+///
+/// ```
+/// Vec {
+///     heap_pointer: 8B,
+///     capacity: 8B,
+///     size: 8B,
+/// }
+///
+/// Box<dyn ...> {
+///     vtable_pointer: 8B,
+///     heap_pointer: 8B,
+/// }
+///
+/// Point {
+///     x: 4B,
+///     y: 4B,
+/// }
+///
+/// {points} (Vec)
+///  |
+/// {dv}{dv}{dv}...   (Box<dyn DynamicPoint>)  contiguous heap allocation of fat pointers
+///  |   \    |
+/// {xy} {xy} | ...  (Point) separate heap objects
+///          /
+/// {vtable}  once per dynamic type, contains size, alignment and Trait-Methods
+/// ```
 pub struct DynamicPoints {
     points: Vec<Box<dyn DynamicPoint>>,
 }

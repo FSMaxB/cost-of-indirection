@@ -6,6 +6,14 @@ pub trait Points: FromIterator<Point> {
     fn size_estimate(&self) -> usize;
 }
 
+/// Memory Layout:
+///
+/// ```
+/// {
+///     x: 4B,
+///     y: 4B,
+/// }
+/// ```
 pub struct Point {
     pub x: u32,
     pub y: u32,

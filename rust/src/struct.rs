@@ -1,6 +1,24 @@
 use crate::points::{Point, Points};
 use std::iter::FromIterator;
 
+/// Memory Layout:
+///
+/// ```
+/// Vec {
+///     heap_pointer: 8B,
+///     capacity: 8B,
+///     size: 8B,
+/// }
+///
+/// Point {
+///     x: 4B,
+///     y: 4B,
+/// }
+///
+/// {points} (Vec)
+///  |
+/// {xy}{xy}{xy}...   (Point)  1 contiguous heap allocation
+/// ```
 pub struct StructPoints {
     points: Vec<Point>,
 }
