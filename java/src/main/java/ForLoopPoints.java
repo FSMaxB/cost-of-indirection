@@ -10,11 +10,6 @@ public class ForLoopPoints implements Points {
     }
 
     @Override
-    public String name() {
-        return this.getClass().getSimpleName();
-    }
-
-    @Override
     public double averageLength() {
         long totalLength = 0;
         for (Point point : this.points) {

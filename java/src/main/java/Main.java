@@ -22,7 +22,7 @@ public class Main {
         long sizeEstimate = heapSize() - heapOverhead;
 
         OutputAndSeconds<Double> outputAndSeconds = computeAndTime(points::averageLength);
-        System.out.println(points.name() + ": Average length: " + outputAndSeconds.output + " (" + outputAndSeconds.seconds + "s) (ca. " + (sizeEstimate / mib) + "MiB)");
+        System.out.println(points.getClass().getSimpleName() + ": Average length: " + outputAndSeconds.output + " (" + outputAndSeconds.seconds + "s) (ca. " + (sizeEstimate / mib) + "MiB)");
     }
 
     private static void warmJIT(Function<Stream<Point>, Points> constructor) {

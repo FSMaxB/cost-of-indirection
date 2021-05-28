@@ -10,11 +10,6 @@ public class StreamPoints implements Points {
     }
 
     @Override
-    public String name() {
-        return this.getClass().getSimpleName();
-    }
-
-    @Override
     public double averageLength() {
         long totalLength = this.points
                 .stream()

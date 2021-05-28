@@ -17,11 +17,6 @@ public class InlinePoints implements Points {
     }
 
     @Override
-    public String name() {
-        return this.getClass().getSimpleName();
-    }
-
-    @Override
     public double averageLength() {
         long totalLength = 0;
         for (int index = 0; index < (this.xyCoordinates.length / 2); index++) {
